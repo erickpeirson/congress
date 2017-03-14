@@ -123,8 +123,7 @@ def get_term_congresses(term):
 # bill_type, bill_number, congress
 
 
-def split_bill_id(bill_id):
-    return re.match("^([a-z]+)(\d+)-(\d+)$", bill_id).groups()
+
 
 # "hjres1234-115"
 
@@ -164,6 +163,22 @@ def split_nomination_id(nomination_id):
 
 
 def process_set(to_fetch, fetch_func, options, *extra_args):
+    """
+    Maps a data-retriving function to a set of identifiers.
+
+    Parameters
+    ----------
+    to_fetch : iterable
+    fetch_func : callable
+    options : dict
+    extra_args : args
+
+    Returns
+    -------
+    list
+        Identifiers for records successfully processed, or skipped for some
+        non-exceptional reason.
+    """
     errors = []
     saved = []
     skips = []

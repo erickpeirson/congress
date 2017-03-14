@@ -8,6 +8,8 @@ import datetime
 import os
 import os.path
 
+from govtrack import govtrack_type_codes
+
 
 def fetch_vote(vote_id, options):
     logging.info("\n[%s] Fetching..." % vote_id)
@@ -112,7 +114,6 @@ def output_vote(vote, options, id_type=None):
     utils.make_node(root, "result", vote["result"])
 
     if vote.get("bill"):
-        govtrack_type_codes = {'hr': 'h', 's': 's', 'hres': 'hr', 'sres': 'sr', 'hjres': 'hj', 'sjres': 'sj', 'hconres': 'hc', 'sconres': 'sc'}
         utils.make_node(root, "bill", None, session=str(vote["bill"]["congress"]), type=govtrack_type_codes[vote["bill"]["type"]], number=str(vote["bill"]["number"]))
 
     if "amendment" in vote:
@@ -328,7 +329,7 @@ def parse_house_vote(dom, vote):
     vote["subject"] = unicode(dom.xpath("string(vote-metadata/vote-desc)"))
     if not vote["subject"]:
         del vote["subject"]
-        
+
 
     vote_types = {"YEA-AND-NAY": "1/2", "2/3 YEA-AND-NAY": "2/3", "3/5 YEA-AND-NAY": "3/5", "1/2": "1/2", "2/3": "2/3", "QUORUM": "QUORUM", "RECORDED VOTE": "1/2", "2/3 RECORDED VOTE": "2/3", "3/5 RECORDED VOTE": "3/5"}
     vote["requires"] = vote_types.get(str(dom.xpath("string(vote-metadata/vote-type)")), "unknown")

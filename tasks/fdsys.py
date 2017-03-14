@@ -117,6 +117,7 @@ def update_sitemap_cache(options, listing):
         # Process the bulk data sitemap index.
         update_sitemap(fdsys_baseurl + "bulkdata/sitemapindex.xml", None, [], options, listing)
 
+
 def update_sitemap(url, current_lastmod, how_we_got_here, options, listing):
     """Updates the local cache of a sitemap file."""
 
@@ -301,12 +302,12 @@ def get_sitemap_cache_files(subject):
     # a path relative to the cache root.
 
     cache_file = "fdsys/sitemap"
-    
+
     if "year" in subject:
         # The main document collections have years, but the bulk data
         # collections don't.
         cache_file = os.path.join(cache_file, subject["year"])
-    
+
     if "collection" in subject:
         # The root sitemap for the main collections doesn't have a "collection" name.
         cache_file = os.path.join(cache_file, subject["collection"])
@@ -537,7 +538,7 @@ def get_output_path(sitemap, package_name, granule_name, options):
         if options.get("congress") and congress != options.get("congress"):
             return None  # congress number does not match options["congress"]
         return "%s/%s/%s/%s/%s" % (utils.data_dir(), congress, sitemap["collection"].lower(), report_type, report_type + report_number)
-    
+
     else:
         # Store in fdsys/COLLECTION/YEAR/PKGNAME[/GRANULE_NAME].
         path = "%s/fdsys/%s/%s/%s" % (utils.data_dir(), sitemap["collection"], sitemap["year"], package_name)
